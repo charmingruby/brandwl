@@ -6,7 +6,10 @@ import (
 	"os"
 
 	"github.com/charmingruby/brandwl/config"
-	"github.com/charmingruby/brandwl/pkg/mongo"
+	"github.com/charmingruby/brandwl/internal/domain/search/search_usecase"
+	"github.com/charmingruby/brandwl/internal/infra/database/mongo"
+	mongoConn "github.com/charmingruby/brandwl/pkg/mongo"
+	"github.com/charmingruby/brandwl/tests/fake"
 	"github.com/joho/godotenv"
 )
 
@@ -24,10 +27,12 @@ func main() {
 		os.Exit(1)
 	}
 
-	_, err = mongo.NewMongoConnection(cfg.MongoConfig.URL, cfg.MongoConfig.Database)
+	db, err := mongoConn.NewMongoConnection(cfg.MongoConfig.URL, cfg.MongoConfig.Database)
 	if err != nil {
 		slog.Error(fmt.Sprintf("[MONGO CONNECTION] %s", err.Error()))
 		os.Exit(1)
 	}
 
+	searchRepo := mongo.NewMongoSearchRepository(db)
+	search_usecase.NewSearchUseCase(searchRepo, fake.NewFakeGoogleAPI())
 }
