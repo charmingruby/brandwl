@@ -1,8 +1,12 @@
 package v1
 
 import (
+	"fmt"
+	"log/slog"
+
 	"github.com/charmingruby/brandwl/internal/domain/search/search_dto"
 	"github.com/charmingruby/brandwl/internal/domain/search/search_entity"
+	"github.com/charmingruby/brandwl/pkg/mailer/template"
 	"github.com/charmingruby/brandwl/pkg/response"
 	"github.com/gin-gonic/gin"
 )
@@ -44,6 +48,12 @@ func (h *Handler) searchDomainConcurrentsEndpoint(c *gin.Context) {
 	if err != nil {
 		response.NewInternalServerError(c, err)
 		return
+	}
+
+	if err := h.mailer.SendEmail(
+		req.Email, "Brand Monitor Concurrents Search", template.NewConcurrentsResearchResultTemplate(*result),
+	); err != nil {
+		slog.Error(fmt.Sprintf("[MAILER] Unable to mail to `%s` with concurrents search result", req.Email))
 	}
 
 	response.NewOkResponse(c, "concurrents result", result)

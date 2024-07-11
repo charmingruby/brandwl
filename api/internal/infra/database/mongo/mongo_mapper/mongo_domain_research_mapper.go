@@ -7,10 +7,8 @@ func DomainResearchToMongo(dr *search_entity.DomainResearch) *MongoDomainResearc
 
 	for _, r := range dr.Result {
 		convResult := MongoDomainResearchResult{
-			ID:          r.ID,
-			Domain:      r.Domain,
-			Title:       r.Title,
-			Description: r.Description,
+			ID:     r.ID,
+			Domain: r.Domain,
 		}
 		convResults = append(convResults, convResult)
 	}

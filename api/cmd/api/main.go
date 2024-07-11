@@ -16,6 +16,7 @@ import (
 	mongoRepo "github.com/charmingruby/brandwl/internal/infra/database/mongo"
 	"github.com/charmingruby/brandwl/internal/infra/transport/rest"
 	v1 "github.com/charmingruby/brandwl/internal/infra/transport/rest/endpoint/v1"
+	"github.com/charmingruby/brandwl/pkg/mailer"
 	mongoConn "github.com/charmingruby/brandwl/pkg/mongo"
 	"github.com/charmingruby/brandwl/tests/fake"
 	"github.com/gin-gonic/gin"
@@ -43,9 +44,17 @@ func main() {
 		os.Exit(1)
 	}
 
+	mailer := mailer.NewMailTrapMailer(
+		cfg.MailerConfig.Host,
+		cfg.MailerConfig.Port,
+		cfg.MailerConfig.From,
+		cfg.MailerConfig.User,
+		cfg.MailerConfig.Password,
+	)
+
 	router := gin.Default()
 
-	initDependencies(db, router)
+	initDependencies(db, router, mailer)
 
 	server := rest.NewServer(router, cfg.ServerConfig.Port)
 
@@ -74,8 +83,8 @@ func main() {
 	slog.Info("Gracefully shutdown!")
 }
 
-func initDependencies(db *mongo.Database, router *gin.Engine) {
+func initDependencies(db *mongo.Database, router *gin.Engine, mailer mailer.Mailer) {
 	searchRepo := mongoRepo.NewMongoSearchRepository(db)
 	searchUseCase := search_usecase.NewSearchUseCase(searchRepo, fake.NewFakeGoogleAPI())
-	v1.NewV1Handler(router, searchUseCase).Register()
+	v1.NewV1Handler(router, searchUseCase, mailer).Register()
 }

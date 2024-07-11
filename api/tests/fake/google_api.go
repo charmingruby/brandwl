@@ -22,8 +22,6 @@ func (g *FakeGoogleAPI) GenerateFakeResults(amount int) {
 	for i := 0; i < amount; i++ {
 		res := search_entity.NewDomainResearchResult(
 			fmt.Sprintf("domain%d.com", i),
-			fmt.Sprintf("domain%d", i),
-			fmt.Sprintf("domain%d description", i),
 		)
 
 		g.Items = append(g.Items, *res)

@@ -7,9 +7,14 @@ import (
 )
 
 type environment struct {
-	MongoURL      string `env:"MONGO_URL,required"`
-	MongoDatabase string `env:"MONGO_DATABASE,required"`
-	ServerPort    string `env:"PORT,required"`
+	MongoURL       string `env:"MONGO_URL,required"`
+	MongoDatabase  string `env:"MONGO_DATABASE,required"`
+	ServerPort     string `env:"PORT,required"`
+	MailerHost     string `env:"MAILER_HOST,required"`
+	MailerPort     int    `env:"MAILER_PORT,required"`
+	MailerFrom     string `env:"MAILER_FROM,required"`
+	MailerUser     string `env:"MAILER_USER,required"`
+	MailerPassword string `env:"MAILER_PASSWORD,required"`
 }
 
 func NewConfig() (*Config, error) {
@@ -30,6 +35,13 @@ func NewConfig() (*Config, error) {
 		ServerConfig: &serverConfig{
 			Port: environment.ServerPort,
 		},
+		MailerConfig: &mailerConfig{
+			Host:     environment.MailerHost,
+			Port:     environment.MailerPort,
+			From:     environment.MailerFrom,
+			User:     environment.MailerUser,
+			Password: environment.MailerPassword,
+		},
 	}
 
 	return &cfg, nil
@@ -38,11 +50,20 @@ func NewConfig() (*Config, error) {
 type Config struct {
 	MongoConfig  *mongoConfig
 	ServerConfig *serverConfig
+	MailerConfig *mailerConfig
 }
 
 type mongoConfig struct {
 	Database string
 	URL      string
+}
+
+type mailerConfig struct {
+	Host     string
+	Port     int
+	From     string
+	User     string
+	Password string
 }
 
 type serverConfig struct {
