@@ -17,6 +17,46 @@
     "host": "localhost:3000",
     "basePath": "/api/v1",
     "paths": {
+        "/search": {
+            "post": {
+                "description": "Search Domain Concurrents",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Search"
+                ],
+                "summary": "Search Domain Concurrents",
+                "parameters": [
+                    {
+                        "description": "Search Domain Concurrents Payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.SearchDomainConcurrentsRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/v1.SearchDomainConcurrentsResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/welcome": {
             "get": {
                 "description": "Health Check",
@@ -45,9 +85,78 @@
                 "data": {},
                 "message": {
                     "type": "string"
+                }
+            }
+        },
+        "search_entity.DomainResearch": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
                 },
-                "status_code": {
-                    "type": "integer"
+                "id": {
+                    "type": "string"
+                },
+                "result": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/search_entity.DomainResearchResult"
+                    }
+                },
+                "terms": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "search_entity.DomainResearchResult": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "domain": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "v1.SearchDomainConcurrentsRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "terms"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "terms": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "v1.SearchDomainConcurrentsResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/search_entity.DomainResearch"
+                    }
+                },
+                "message": {
+                    "type": "string"
                 }
             }
         }

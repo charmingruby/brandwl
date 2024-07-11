@@ -5,8 +5,53 @@ definitions:
       data: {}
       message:
         type: string
-      status_code:
-        type: integer
+    type: object
+  search_entity.DomainResearch:
+    properties:
+      email:
+        type: string
+      id:
+        type: string
+      result:
+        items:
+          $ref: '#/definitions/search_entity.DomainResearchResult'
+        type: array
+      terms:
+        items:
+          type: string
+        type: array
+    type: object
+  search_entity.DomainResearchResult:
+    properties:
+      description:
+        type: string
+      domain:
+        type: string
+      id:
+        type: string
+      title:
+        type: string
+    type: object
+  v1.SearchDomainConcurrentsRequest:
+    properties:
+      email:
+        type: string
+      terms:
+        items:
+          type: string
+        type: array
+    required:
+    - email
+    - terms
+    type: object
+  v1.SearchDomainConcurrentsResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/search_entity.DomainResearch'
+        type: array
+      message:
+        type: string
     type: object
 host: localhost:3000
 info:
@@ -21,6 +66,32 @@ info:
   title: brandwl
   version: "1.0"
 paths:
+  /search:
+    post:
+      consumes:
+      - application/json
+      description: Search Domain Concurrents
+      parameters:
+      - description: Search Domain Concurrents Payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/v1.SearchDomainConcurrentsRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v1.SearchDomainConcurrentsResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Search Domain Concurrents
+      tags:
+      - Search
   /welcome:
     get:
       description: Health Check

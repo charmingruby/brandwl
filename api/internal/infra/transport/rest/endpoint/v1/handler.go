@@ -26,6 +26,7 @@ func (h *Handler) Register() {
 	docs.SwaggerInfo.BasePath = basePath
 	{
 		v1.GET("/welcome", h.welcomeEndpoint)
+		v1.POST("/search", h.searchDomainConcurrentsEndpoint)
 	}
 
 	h.router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
