@@ -14,8 +14,8 @@ func NewDomainResearchResult(domain, title, description string) *DomainResearchR
 }
 
 type DomainResearchResult struct {
-	ID          string
-	Domain      string
-	Title       string
-	Description string
+	ID          string `json:"id"`
+	Domain      string `json:"domain"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
 }
