@@ -26,10 +26,10 @@ func DomainResearchToMongo(dr *search_entity.DomainResearch) *MongoDomainResearc
 }
 
 type MongoDomainResearch struct {
-	ID     string   `json:"id" bson:"id"`
-	Email  string   `json:"email" bson:"email"`
-	Terms  []string `json:"terms" bson:"terms"`
-	Result []MongoDomainResearchResult
+	ID     string                      `json:"id" bson:"id"`
+	Email  string                      `json:"email" bson:"email"`
+	Terms  []string                    `json:"terms" bson:"terms"`
+	Result []MongoDomainResearchResult `json:"result" bson:"result"`
 }
 
 type MongoDomainResearchResult struct {

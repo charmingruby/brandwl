@@ -14,8 +14,8 @@ func NewDomainResearch(email string, terms []string) *DomainResearch {
 }
 
 type DomainResearch struct {
-	ID     string   `json:"id"`
-	Email  string   `json:"email"`
-	Terms  []string `json:"terms"`
-	Result []DomainResearchResult
+	ID     string                 `json:"id"`
+	Email  string                 `json:"email"`
+	Terms  []string               `json:"terms"`
+	Result []DomainResearchResult `json:"result"`
 }
