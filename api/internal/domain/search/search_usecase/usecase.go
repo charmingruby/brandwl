@@ -8,10 +8,10 @@ import (
 )
 
 type SearchUseCase interface {
-	SearchDomainConcurrents(dto search_dto.DomainConcurrentsResearchDTO) (search_entity.DomainResearch, error)
+	SearchDomainConcurrents(dto search_dto.DomainConcurrentsResearchDTO) (*search_entity.DomainResearch, error)
 }
 
-func NewSearchUseCase(searchRepo search_repository.DomainResearchRepository, googleAPI *search_adapter.GoogleAPIAdapter) *SearchUseCaseRegistry {
+func NewSearchUseCase(searchRepo search_repository.DomainResearchRepository, googleAPI search_adapter.GoogleAPIAdapter) *SearchUseCaseRegistry {
 	return &SearchUseCaseRegistry{
 		SearchRepository: searchRepo,
 		GoogleAPI:        googleAPI,
@@ -20,5 +20,5 @@ func NewSearchUseCase(searchRepo search_repository.DomainResearchRepository, goo
 
 type SearchUseCaseRegistry struct {
 	SearchRepository search_repository.DomainResearchRepository
-	GoogleAPI        *search_adapter.GoogleAPIAdapter
+	GoogleAPI        search_adapter.GoogleAPIAdapter
 }
