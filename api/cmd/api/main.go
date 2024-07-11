@@ -29,4 +29,5 @@ func main() {
 		slog.Error(fmt.Sprintf("[MONGO CONNECTION] %s", err.Error()))
 		os.Exit(1)
 	}
+
 }
