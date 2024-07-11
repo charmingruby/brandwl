@@ -11,14 +11,14 @@ import (
 
 type Suite struct {
 	suite.Suite
-	searchRepo    *inmemory.SearchInMemoryRepository
+	searchRepo    *inmemory.DomainResearchInMemoryRepository
 	fakeGoogleAPI *fake.FakeGoogleAPI
 	searchUseCase *SearchUseCaseRegistry
 }
 
 // initial setup
 func (s *Suite) SetupSuite() {
-	s.searchRepo = inmemory.NewSearchInMemoryRepository()
+	s.searchRepo = inmemory.NewDomainResearchInMemoryRepository()
 	s.fakeGoogleAPI = fake.NewFakeGoogleAPI()
 	s.searchUseCase = NewSearchUseCase(s.searchRepo, s.fakeGoogleAPI)
 }
