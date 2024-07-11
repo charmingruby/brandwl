@@ -8,7 +8,7 @@ import (
 )
 
 type SearchUseCase interface {
-	SearchDomainConcurrents(dto search_dto.DomainConcurrentsResearchDTO) (*search_entity.DomainResearch, error)
+	SearchDomainConcurrentsUseCase(dto search_dto.DomainConcurrentsResearchDTO) (*search_entity.DomainResearch, error)
 }
 
 func NewSearchUseCase(searchRepo search_repository.DomainResearchRepository, googleAPI search_adapter.GoogleAPIAdapter) *SearchUseCaseRegistry {

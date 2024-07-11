@@ -8,7 +8,7 @@ import (
 	"github.com/charmingruby/brandwl/internal/domain/search/search_entity"
 )
 
-func (uc *SearchUseCaseRegistry) SearchDomainConcurrents(dto search_dto.DomainConcurrentsResearchDTO) (*search_entity.DomainResearch, error) {
+func (uc *SearchUseCaseRegistry) SearchDomainConcurrentsUseCase(dto search_dto.DomainConcurrentsResearchDTO) (*search_entity.DomainResearch, error) {
 	research := search_entity.NewDomainResearch(dto.Email, dto.Terms)
 
 	result, err := uc.GoogleAPI.SearchDomainConcurrents(dto)
