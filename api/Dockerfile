@@ -10,6 +10,5 @@ FROM alpine:latest
 WORKDIR /app
 RUN apk update && apk add ca-certificates && rm -rf /var/cache/apk*
 COPY --from=builder /build/bin/brandwl ./brandwl
-COPY .env /app
 EXPOSE 3000
 CMD [ "/app/brandwl" ]
