@@ -1,6 +1,6 @@
 package search_dto
 
-type DomainConcurrentsResearchRequestDTO struct {
+type DomainConcurrentsResearchDTO struct {
 	Email string
 	Terms []string
 }
