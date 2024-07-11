@@ -1,0 +1,37 @@
+basePath: /api/v1
+definitions:
+  response.Response:
+    properties:
+      data: {}
+      message:
+        type: string
+      status_code:
+        type: integer
+    type: object
+host: localhost:3000
+info:
+  contact:
+    email: gustavodiasa2121@gmail.com
+    name: Gustavo Dias
+    url: https://github.com/charmingruby
+  description: This is the backend for Brand Monitor challenge
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: brandwl
+  version: "1.0"
+paths:
+  /welcome:
+    get:
+      description: Health Check
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Health Check
+      tags:
+      - Health
+swagger: "2.0"

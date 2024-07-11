@@ -15,6 +15,7 @@ import (
 	"github.com/charmingruby/brandwl/internal/domain/search/search_usecase"
 	mongoRepo "github.com/charmingruby/brandwl/internal/infra/database/mongo"
 	"github.com/charmingruby/brandwl/internal/infra/transport/rest"
+	v1 "github.com/charmingruby/brandwl/internal/infra/transport/rest/endpoint/v1"
 	mongoConn "github.com/charmingruby/brandwl/pkg/mongo"
 	"github.com/charmingruby/brandwl/tests/fake"
 	"github.com/gin-gonic/gin"
@@ -42,9 +43,10 @@ func main() {
 		os.Exit(1)
 	}
 
-	initDependencies(db)
-
 	router := gin.Default()
+
+	initDependencies(db, router)
+
 	server := rest.NewServer(router, cfg.ServerConfig.Port)
 
 	go func() {
@@ -72,7 +74,8 @@ func main() {
 	slog.Info("Gracefully shutdown!")
 }
 
-func initDependencies(db *mongo.Database) {
+func initDependencies(db *mongo.Database, router *gin.Engine) {
 	searchRepo := mongoRepo.NewMongoSearchRepository(db)
-	search_usecase.NewSearchUseCase(searchRepo, fake.NewFakeGoogleAPI())
+	searchUseCase := search_usecase.NewSearchUseCase(searchRepo, fake.NewFakeGoogleAPI())
+	v1.NewV1Handler(router, searchUseCase).Register()
 }
