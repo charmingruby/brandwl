@@ -4,6 +4,7 @@ go 1.22.3
 
 require (
 	github.com/caarlos0/env/v6 v6.10.1
+	github.com/gin-contrib/cors v1.7.2
 	github.com/gin-gonic/gin v1.10.0
 	github.com/go-mail/mail v2.3.1+incompatible
 	github.com/joho/godotenv v1.5.1

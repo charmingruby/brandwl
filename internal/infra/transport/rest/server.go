@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/charmingruby/brandwl/internal/infra/transport/rest/middleware"
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,8 +17,6 @@ func NewServer(router *gin.Engine, port string) *HTTPServer {
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 10 * time.Second,
 	}
-
-	router.Use(middleware.Cors())
 
 	return &HTTPServer{
 		Router: router,

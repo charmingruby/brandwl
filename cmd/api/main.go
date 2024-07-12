@@ -19,6 +19,7 @@ import (
 	"github.com/charmingruby/brandwl/pkg/mailer"
 	mongoConn "github.com/charmingruby/brandwl/pkg/mongo"
 	"github.com/charmingruby/brandwl/tests/fake"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -53,6 +54,11 @@ func main() {
 	)
 
 	router := gin.Default()
+	router.Use(cors.New(cors.Config{
+		AllowAllOrigins: true,
+		AllowHeaders:    []string{"Origin", "Accept", "Content-Type", "Authorization", "User-Agent"},
+		ExposeHeaders:   []string{"Content-Length"},
+	}))
 
 	initDependencies(db, router, mailer)
 
