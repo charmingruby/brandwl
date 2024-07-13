@@ -12,13 +12,14 @@ import (
 	"time"
 
 	"github.com/charmingruby/brandwl/config"
+	"github.com/charmingruby/brandwl/internal/domain/search/search_adapter"
 	"github.com/charmingruby/brandwl/internal/domain/search/search_usecase"
 	mongoRepo "github.com/charmingruby/brandwl/internal/infra/database/mongo"
 	"github.com/charmingruby/brandwl/internal/infra/transport/rest"
 	v1 "github.com/charmingruby/brandwl/internal/infra/transport/rest/endpoint/v1"
 	"github.com/charmingruby/brandwl/pkg/mailer"
 	mongoConn "github.com/charmingruby/brandwl/pkg/mongo"
-	"github.com/charmingruby/brandwl/tests/fake"
+	"github.com/charmingruby/brandwl/pkg/scrap"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -53,6 +54,8 @@ func main() {
 		cfg.MailerConfig.Password,
 	)
 
+	scrap := scrap.NewGoogleSearch(cfg.GoogleConfig.APIKey)
+
 	router := gin.Default()
 	router.Use(cors.New(cors.Config{
 		AllowAllOrigins: true,
@@ -60,7 +63,7 @@ func main() {
 		ExposeHeaders:   []string{"Content-Length"},
 	}))
 
-	initDependencies(db, router, mailer)
+	initDependencies(db, router, mailer, scrap)
 
 	server := rest.NewServer(router, cfg.ServerConfig.Port)
 
@@ -89,8 +92,8 @@ func main() {
 	slog.Info("Gracefully shutdown!")
 }
 
-func initDependencies(db *mongo.Database, router *gin.Engine, mailer mailer.Mailer) {
+func initDependencies(db *mongo.Database, router *gin.Engine, mailer mailer.Mailer, scrap search_adapter.GoogleAPIAdapter) {
 	searchRepo := mongoRepo.NewMongoSearchRepository(db)
-	searchUseCase := search_usecase.NewSearchUseCase(searchRepo, fake.NewFakeGoogleAPI())
+	searchUseCase := search_usecase.NewSearchUseCase(searchRepo, scrap)
 	v1.NewV1Handler(router, searchUseCase, mailer).Register()
 }

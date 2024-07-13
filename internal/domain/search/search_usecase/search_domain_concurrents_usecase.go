@@ -12,7 +12,7 @@ import (
 func (uc *SearchUseCaseRegistry) SearchDomainConcurrentsUseCase(dto search_dto.DomainConcurrentsResearchDTO) (*search_entity.DomainResearch, error) {
 	research := search_entity.NewDomainResearch(dto.Email, dto.Terms)
 
-	result, err := uc.GoogleAPI.SearchDomainConcurrents(dto)
+	result, err := uc.GoogleAPI.SearchDomain(dto.Terms)
 	if err != nil {
 		slog.Error(fmt.Sprintf("[Search Domain Concurrents UseCase] Google API: %s", err.Error()))
 		return nil, core.NewInternalErr("search domain concurrents") // no explicitation of a infra error

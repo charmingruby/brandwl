@@ -15,6 +15,7 @@ type environment struct {
 	MailerFrom     string `env:"MAILER_FROM,required"`
 	MailerUser     string `env:"MAILER_USER,required"`
 	MailerPassword string `env:"MAILER_PASSWORD,required"`
+	GoogleAPIKey   string `env:"GOOGLE_API_KEY,required"`
 }
 
 func NewConfig() (*Config, error) {
@@ -42,6 +43,9 @@ func NewConfig() (*Config, error) {
 			User:     environment.MailerUser,
 			Password: environment.MailerPassword,
 		},
+		GoogleConfig: &googleConfig{
+			APIKey: environment.GoogleAPIKey,
+		},
 	}
 
 	return &cfg, nil
@@ -51,6 +55,7 @@ type Config struct {
 	MongoConfig  *mongoConfig
 	ServerConfig *serverConfig
 	MailerConfig *mailerConfig
+	GoogleConfig *googleConfig
 }
 
 type mongoConfig struct {
@@ -64,6 +69,10 @@ type mailerConfig struct {
 	From     string
 	User     string
 	Password string
+}
+
+type googleConfig struct {
+	APIKey string
 }
 
 type serverConfig struct {

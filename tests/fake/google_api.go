@@ -3,7 +3,6 @@ package fake
 import (
 	"fmt"
 
-	"github.com/charmingruby/brandwl/internal/domain/search/search_dto"
 	"github.com/charmingruby/brandwl/internal/domain/search/search_entity"
 )
 
@@ -28,6 +27,6 @@ func (g *FakeGoogleAPI) GenerateFakeResults(amount int) {
 	}
 }
 
-func (g *FakeGoogleAPI) SearchDomainConcurrents(dto search_dto.DomainConcurrentsResearchDTO) ([]search_entity.DomainResearchResult, error) {
+func (g *FakeGoogleAPI) SearchDomain(terms []string) ([]search_entity.DomainResearchResult, error) {
 	return g.Items, nil
 }
