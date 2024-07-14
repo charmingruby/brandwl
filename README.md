@@ -6,9 +6,15 @@
 
 # Execução
 
-**1.** Adicionar o .env no diretorio raiz com as configuraçoes necessarias.
+**1.** Adicionar o .env no diretório raiz com as configurações necessárias.
 
-**2.** Rodar projeto
+**2.** Baixar dependências
+
+```
+$ go mod tidy
+```
+
+**3.** Rodar projeto
 
 ```
 $ go run cmd/api/main.go
