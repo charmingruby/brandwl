@@ -19,3 +19,26 @@ $ go mod tidy
 ```
 $ go run cmd/api/main.go
 ```
+## API
+
+### Rotas
+
+| Método | URL                                   | Privada | Funcionalidade                                                                            |
+| :----- | ------------------------------------- | :-----: | ----------------------------------------------------------------------------------------- |
+| POST   | /api/v1/search                         |    -    | Retorna o resultado da pesquisa por termo. |
+
+
+### Dados para execução
+
+#### `[POST]` /api/v1/search
+
+Payload:
+
+```
+{
+    "email": "gustavodiasa2121@gmail.com",
+    "terms": [
+        "test"
+    ]
+}
+```
